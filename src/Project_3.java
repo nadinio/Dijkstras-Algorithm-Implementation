@@ -1,64 +1,38 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
+
 
 /**
  * Created by Nicholas on 4/16/2015.
  */
 
-class Vertex
-{
-    String name;
-    HashSet<Edge> adj;
-
-    Vertex(String nm) {name = nm;}
-}
-
-class Edge
-{
-    float weight;
-    Vertex tailVertex;
-    Vertex headVertex;
-
-    Edge(Vertex tailVertex, Vertex headVertex, float weight)
-    {this.tailVertex = tailVertex; this.headVertex = headVertex; this.weight = weight;}
-}
-
-class Graph
-{
-    HashSet<Vertex> nodes;
-    HashSet<Edge> edges;
-
-    void addEdge(Vertex tail, Vertex head, float weight)
-    {
-        tail.adj.add(new Edge(tail,head,weight));
-        head.adj.add(new Edge(head,tail,weight));
-        nodes.add(tail);
-        nodes.add(head);
-        edges.add(new Edge(tail,head,weight));
-        edges.add(new Edge(head,tail,weight));
-    }
-
-    void deleteEdge(Edge a)
-    {
-        a.tailVertex.adj.remove(a); a.headVertex.adj.remove(a);
-        edges.remove(a);
-    }
-}
-
-
 public class Project_3
 {
     public static void main(String[] args)
     {
+        Graph megaGraph = new Graph();
         try{
-            Graph megaGraph = readFile(args[0]);
+            megaGraph = readFile(args[0]);
         }
         catch(IOException e)
         {
             System.out.println("File not found");
         }
+
+        System.out.println();
+
+
+       /* Graph build = new Graph();
+        Vertex v1 = new Vertex("Vertex");
+        Vertex v2 = new Vertex("Vertex");
+
+        build.addVertex(v1);
+        build.addVertex(v2);
+            */
+        System.out.println();
+
+
 
     }
 
@@ -67,8 +41,29 @@ public class Project_3
         FileReader fr = new FileReader(filePath);
         BufferedReader br = new BufferedReader(fr);
 
+        Graph graphBuilder = new Graph();
 
+        for (String line; (line = br.readLine()) != null; ) {
+            String [] splitString = line.split(" ", 3);
+            Vertex new1 = new Vertex(splitString[0]);
+            Vertex new2 = new Vertex(splitString[1]);
+            Edge toAdd = new Edge(new1, new2, Float.valueOf(splitString[2]));
+            graphBuilder.addVertex(new1);
+            graphBuilder.addVertex(new2);
+            graphBuilder.addEdge(toAdd);
+        }
 
-        return new Graph();
+        System.out.println();
+
+        return graphBuilder;
     }
 }
+
+
+
+
+
+
+
+
+
