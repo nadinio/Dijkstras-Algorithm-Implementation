@@ -8,5 +8,10 @@ public class Edge
     Vertex headVertex;
 
     Edge(Vertex tailVertex, Vertex headVertex, float weight)
-    {this.tailVertex = tailVertex; this.headVertex = headVertex; this.weight = weight;}
+    {
+        this.tailVertex = tailVertex; this.headVertex = headVertex; this.weight = weight;
+        tailVertex.adj.add(headVertex); headVertex.adj.add(tailVertex);
+    }
+
+
 }

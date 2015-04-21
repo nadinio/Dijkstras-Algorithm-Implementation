@@ -9,9 +9,15 @@ public class Graph
     Set<Vertex> nodes = new HashSet<Vertex>();
     Set<Edge> edges = new HashSet<Edge>();
 
-    void addEdge(Edge e)
+    void addEdge(Vertex tailVertex, Vertex headVertex, float weight)
     {
-        edges.add(e);
+        if(nodes.contains(tailVertex))
+            tailVertex.adj.add(headVertex);
+        if(nodes.contains(headVertex))
+            headVertex.adj.add(tailVertex);
+
+
+        edges.add(new Edge(tailVertex, headVertex, weight));
     }
 
     void addVertex(Vertex v)
@@ -19,9 +25,24 @@ public class Graph
         nodes.add(v);
     }
 
-    void deleteEdge(Edge a)
+    void deleteEdge(Edge edge)
     {
-        a.tailVertex.adj.remove(a); a.headVertex.adj.remove(a);
-        edges.remove(a);
+        edge.tailVertex.adj.remove(edge.headVertex); edge.headVertex.adj.remove(edge.tailVertex);
+        edges.remove(edge);
     }
+
+    void printGraph()
+    {
+        Object [] nodeArray = nodes.toArray();
+        for(int i = 0; i < nodeArray.length; i++)
+        {
+            System.out.println(((Vertex)nodeArray[i]).name);
+            Object [] adjArray = ((Vertex)nodeArray[i]).adj.toArray();
+            for (int j = 0; i < adjArray.length; j++)
+            {
+                System.out.println("    " + ((Vertex)adjArray[j]).name + " " + "DISTANCE");
+            }
+        }
+    }
+
 }

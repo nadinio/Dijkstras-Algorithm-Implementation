@@ -12,6 +12,7 @@ public class Project_3
     public static void main(String[] args)
     {
         Graph megaGraph = new Graph();
+
         try{
             megaGraph = readFile(args[0]);
         }
@@ -20,22 +21,14 @@ public class Project_3
             System.out.println("File not found");
         }
 
+
         System.out.println();
-
-
-       /* Graph build = new Graph();
-        Vertex v1 = new Vertex("Vertex");
-        Vertex v2 = new Vertex("Vertex");
-
-        build.addVertex(v1);
-        build.addVertex(v2);
-            */
-        System.out.println();
-
-
 
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////
+    //             readFile() reads the input file and returns the built Graph            //
+    ////////////////////////////////////////////////////////////////////////////////////////
     public static Graph readFile(String filePath) throws IOException
     {
         FileReader fr = new FileReader(filePath);
@@ -43,17 +36,16 @@ public class Project_3
 
         Graph graphBuilder = new Graph();
 
-        for (String line; (line = br.readLine()) != null; ) {
-            String [] splitString = line.split(" ", 3);
-            Vertex new1 = new Vertex(splitString[0]);
-            Vertex new2 = new Vertex(splitString[1]);
-            Edge toAdd = new Edge(new1, new2, Float.valueOf(splitString[2]));
-            graphBuilder.addVertex(new1);
-            graphBuilder.addVertex(new2);
-            graphBuilder.addEdge(toAdd);
+        for (String line; (line = br.readLine()) != null; )
+        {
+            String [] splitString = line.split(" ", 3);            //splits each text entry.
+            Vertex new1 = new Vertex(splitString[0]); Vertex new2 = new Vertex(splitString[1]);  //creates new nodes based on text entries
+            graphBuilder.addVertex(new1); graphBuilder.addVertex(new2);         // adds nodes to the graph
+            graphBuilder.addEdge(new1, new2, Float.valueOf(splitString[2]));
+            graphBuilder.addEdge(new2, new1, Float.valueOf(splitString[2]));          // adds edges to the graph
         }
 
-        System.out.println();
+        fr.close(); br.close();         // closes file readers
 
         return graphBuilder;
     }

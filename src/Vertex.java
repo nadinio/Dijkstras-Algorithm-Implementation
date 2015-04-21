@@ -7,7 +7,7 @@ import java.util.Set;
 public class Vertex
 {
     String name;
-    Set<Edge> adj = new HashSet<Edge>();
+    Set<Vertex> adj = new HashSet<Vertex>();
 
     Vertex(String nm) {name = nm;}
 
@@ -15,11 +15,12 @@ public class Vertex
     public boolean equals(Object o)
     {
         Vertex test = (Vertex)o;
-        return this.name == test.name;
+        return this.name.equals(test.name);
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode()
+    {
         int hash = name.hashCode();
         return hash;
     }
