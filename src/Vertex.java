@@ -24,4 +24,9 @@ public class Vertex
         int hash = name.hashCode();
         return hash;
     }
+
+    public String getName()
+    {
+        return name;
+    }
 }

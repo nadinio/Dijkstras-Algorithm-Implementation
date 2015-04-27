@@ -13,5 +13,14 @@ public class Edge
         tailVertex.adj.add(headVertex); headVertex.adj.add(tailVertex);
     }
 
+    float getWeight()
+    {
+        return weight;
+    }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        return (tailVertex.equals(((Edge) obj).tailVertex) && headVertex.equals(((Edge) obj).headVertex));
+    }
 }
