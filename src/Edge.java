@@ -1,5 +1,5 @@
 /**
- * Created by Nicholas on 4/20/2015.
+ * Created by Nicholas Dinio on 4/20/2015.
  */
 public class Edge
 {
@@ -9,15 +9,15 @@ public class Edge
 
     Edge(Vertex tailVertex, Vertex headVertex, float weight)
     {
-        this.tailVertex = tailVertex; this.headVertex = headVertex; this.weight = weight;
-        tailVertex.adj.add(headVertex); headVertex.adj.add(tailVertex);
+        this.tailVertex = tailVertex; this.headVertex = headVertex; this.weight = weight;  // Initialize variables
+        tailVertex.adj.add(headVertex); headVertex.adj.add(tailVertex);                   // Update adjacency Lists
     }
 
-    float getWeight()
-    {
-        return weight;
-    }
+    float getWeight() {return weight;}              // Returns edge weight
 
+
+    // Overrides the default equals function to compare edges
+    //
     @Override
     public boolean equals(Object obj)
     {

@@ -2,15 +2,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Nicholas on 4/20/2015.
+ * Created by Nicholas Dinio on 4/20/2015.
  */
 public class Vertex
 {
     String name;
     Set<Vertex> adj = new HashSet<Vertex>();
 
-    Vertex(String nm) {name = nm;}
+    Vertex(String nm) {name = nm;}          // Initializes Vertex with name
 
+    // Overrides the default equals function to compare vertices
+    //
     @Override
     public boolean equals(Object o)
     {
@@ -18,6 +20,8 @@ public class Vertex
         return this.name.equals(test.name);
     }
 
+    // Overrides the default hashCode function to work with HashSets
+    //
     @Override
     public int hashCode()
     {
@@ -28,5 +32,5 @@ public class Vertex
     public String getName()
     {
         return name;
-    }
+    }       // Returns Vertex name
 }
