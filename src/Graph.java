@@ -96,57 +96,64 @@ public class Graph
     {
         Edge [] edgeArray = buildEdgeArray(edges.toArray());
 
-        startPoint.distance = 0;
+        startPoint.distance = 0;                        // Initiates the start point distance to 0
 
+        // Initializes first distances based on the start point
+        //
         for(int i = 0; i < edgeArray.length; i++)
-            if(edgeArray[i].tailVertex.equals(startPoint))
+            if(edgeArray[i].tailVertex.equals(startPoint))      // Go through all edges
             {
-                edgeArray[i].headVertex.distance = edgeArray[i].weight;
-                edgeArray[i].headVertex.predecessor = startPoint;
-                nodes.add(edgeArray[i].headVertex);
+                edgeArray[i].headVertex.distance = edgeArray[i].weight;     // Sets the distance
+                edgeArray[i].headVertex.predecessor = startPoint;           // Updates predecessor
+                nodes.add(edgeArray[i].headVertex);             // updates the node on the graph
             }
 
-        // Build a min heap based off of distance
-        PriorityQueue<Vertex> minHeap = new PriorityQueue<Vertex>();
 
-        Vertex [] vertexArray = buildVertexArray(nodes.toArray());
+        PriorityQueue<Vertex> minHeap = new PriorityQueue<Vertex>();    // Minheap based on distance
 
-        for(int i = 0; i < vertexArray.length; i++)
-            minHeap.add(vertexArray[i]);
+        Vertex [] vertexArray = buildVertexArray(nodes.toArray()); // Vertex array
+
+        for(int i = 0; i < vertexArray.length; i++)             // Add all vertices to the min heap
+            minHeap.add(vertexArray[i]);                        // Min heap heapifies automatically.
 
 
-        // Do previous loop with smallest distance
-
+        // Begin Dijkstra's Algorithm
+        //
         while(minHeap.size() != 0) {
             for (int i = 0; i < edgeArray.length; i++)
                 if (edgeArray[i].tailVertex.equals(minHeap.peek())) {
-                    if(edgeArray[i].weight + edgeArray[i].tailVertex.distance < edgeArray[i].headVertex.distance)
+                    if(edgeArray[i].weight + edgeArray[i].tailVertex.distance < edgeArray[i].headVertex.distance)           // If distance would be less
                     {
-                        edgeArray[i].headVertex.distance = edgeArray[i].weight + edgeArray[i].tailVertex.distance;
-                        edgeArray[i].headVertex.predecessor = minHeap.peek();
-                        nodes.add(edgeArray[i].headVertex);
+                        edgeArray[i].headVertex.distance = edgeArray[i].weight + edgeArray[i].tailVertex.distance;          // update the distance
+                        edgeArray[i].headVertex.predecessor = minHeap.peek();                                               // update predecessor
+                        nodes.add(edgeArray[i].headVertex);                                                                 // update node on graph
                     }
                 }
-            minHeap.remove(minHeap.peek());
+            minHeap.remove(minHeap.peek());         // Remove that element from the heap
         }
 
-        vertexArray = buildVertexArray(nodes.toArray());
+        vertexArray = buildVertexArray(nodes.toArray());        // rebuild vertex array with updated nodes
 
-        for(int i = 0; i < vertexArray.length; i++)
+        for(int i = 0; i < vertexArray.length; i++)         // set the endpoint with updated node
             if(vertexArray[i].equals(endPoint))
                 endPoint = vertexArray[i];
 
         Vertex tempVert = endPoint;
         String builderString = "";
 
+        //Build the list of items to be printed
+        //
         while(tempVert != null)
         {
             builderString = tempVert.name + " " + builderString ;
             tempVert = tempVert.predecessor;
         }
 
+        //Prints outcome
         System.out.println(builderString + endPoint.distance + "\n");
 
+        // Resets predecessor and distance for further calculation
+        //
         for (int i = 0; i < vertexArray.length; i++)
         {
             vertexArray[i].predecessor = null;
@@ -160,40 +167,40 @@ public class Graph
     void reachable()
     {
         Vertex [] nodeArray = alphabeticalSort(nodes.toArray());            // Gets nodes as an Array
-        Edge [] edgesArray = buildEdgeArray(edges.toArray());
+        Edge [] edgesArray = buildEdgeArray(edges.toArray());               // Gets edges as an Array
         Stack<Vertex> dfs = new Stack<Vertex>();
 
-        HashSet<Vertex> inStack = new HashSet<Vertex>();
-        LinkedList<Vertex> printList = new LinkedList<Vertex>();
+        HashSet<Vertex> inStack = new HashSet<Vertex>();                  // Creates a set to track whats in stack
+        LinkedList<Vertex> printList = new LinkedList<Vertex>();          // List of items to print
 
-        for(int i = 0; i < nodeArray.length; i++)
+        for(int i = 0; i < nodeArray.length; i++)                   // Perform BFS on each node.
         {
-            inStack.add(nodeArray[i]);
-
-            Vertex startNode = nodeArray[i];
+            inStack.add(nodeArray[i]);                              // Performing BFS on the lists of vertecies
+                                                                    // and edges so that will give his algorithm
+            Vertex startNode = nodeArray[i];                        // a complexity of O(V + E)
             do
             {
-                for(int j = 0; j < edgesArray.length; j++)
-                    if(edgesArray[j].tailVertex.equals(startNode))
+                for(int j = 0; j < edgesArray.length; j++)                  // Add each vertex connected to
+                    if(edgesArray[j].tailVertex.equals(startNode))          // vertex at i to stack
                     {
                         if(!inStack.contains(edgesArray[j].headVertex)) {
-                            dfs.add(edgesArray[j].headVertex);
-                            inStack.add(edgesArray[j].headVertex);
+                            dfs.add(edgesArray[j].headVertex);              // add to stack
+                            inStack.add(edgesArray[j].headVertex);          // add to list of items in stack
                         }
                     }
                 if(!dfs.empty()) {
-                    startNode = dfs.peek();
-                    printList.add(dfs.pop());
+                    startNode = dfs.peek();                     // reset the node to start from
+                    printList.add(dfs.pop());                   // add node to printable list
                 }
             }while(!dfs.empty());
 
-            System.out.println(nodeArray[i].name);
+            System.out.println(nodeArray[i].name);              // Print node i
 
             Vertex[] toPrint = alphabeticalSort(printList.toArray());
-            for(int j = 0; j < printList.size(); j++)
+            for(int j = 0; j < printList.size(); j++)           // Print all nodes reachable by i
                 System.out.println("   " + toPrint[j].name);
 
-            printList = new LinkedList<Vertex>();
+            printList = new LinkedList<Vertex>();               // Reset list and stack for next i
             inStack = new HashSet<Vertex>();
         }
 
