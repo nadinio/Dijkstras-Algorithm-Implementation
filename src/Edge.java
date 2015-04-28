@@ -10,7 +10,6 @@ public class Edge
     Edge(Vertex tailVertex, Vertex headVertex, float weight)
     {
         this.tailVertex = tailVertex; this.headVertex = headVertex; this.weight = weight;  // Initialize variables
-        tailVertex.adj.add(headVertex); headVertex.adj.add(tailVertex);                   // Update adjacency Lists
     }
 
     float getWeight() {return weight;}              // Returns edge weight
