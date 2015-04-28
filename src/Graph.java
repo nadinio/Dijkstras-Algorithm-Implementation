@@ -40,7 +40,7 @@ public class Graph
     ////////////////////////////////////////////////////////////////////////////////////////////
     //                Deletes Edge from graph and updates adjacency list                      //
     ////////////////////////////////////////////////////////////////////////////////////////////
-    void deleteEdge(Vertex headVertex, Vertex tailVertex)
+    void deleteEdge(Vertex tailVertex, Vertex headVertex)
     {
         Vertex [] graphNodes = buildVertexArray(nodes.toArray());       // Gets vertices as an array
 
@@ -52,24 +52,23 @@ public class Graph
                 tailVertex = graphNodes[i];                             // work with that vertex
         }
 
-        headVertex.adj.remove(tailVertex); tailVertex.adj.remove(headVertex);       // Update adjacency lists
+
+        tailVertex.adj.remove(headVertex);                              // Update adjacency list
         nodes.add(headVertex); nodes.add(tailVertex);                   // Re-add vertices to graph.
 
-        Edge toRemove1 = new Edge(headVertex, tailVertex, 0);           // Create mock edges
-        Edge toRemove2 = new Edge(tailVertex, headVertex, 0);
+        Edge toRemove1 = new Edge(headVertex, tailVertex, 0);           // Create mock edge
+
 
         Edge [] graphEdges = buildEdgeArray(edges.toArray());           // Get current edges
 
         // Finds edges that currently exists and sets them to be removed.
         //
-        for(int i = 0; i < graphEdges.length; i++) {
+        for(int i = 0; i < graphEdges.length; i++)
             if (graphEdges[i].headVertex.equals(headVertex) && graphEdges[i].tailVertex.equals(tailVertex))
                 toRemove1 = graphEdges[i];
-            if (graphEdges[i].tailVertex.equals(headVertex) && graphEdges[i].headVertex.equals(tailVertex))
-                toRemove2 = graphEdges[i];
-        }
 
-        edges.remove(toRemove1); edges.remove(toRemove2);               // Remove edges from the graph
+
+        edges.remove(toRemove1);                                          // Remove edge from the graph
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
