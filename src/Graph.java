@@ -22,7 +22,7 @@ public class Graph
         {
             if (graphNodes[i].equals(headVertex)) {                     // Does the head vertex already exist?
                 headVertex = graphNodes[i];                             // If so, work with that vertex
-                graphNodes[i].adj.add(tailVertex);                      // Also, update its adjacency list.
+                //graphNodes[i].adj.add(tailVertex);                      // Also, update its adjacency list.
             }
             if (graphNodes[i].equals(tailVertex)) {                     // Does the tail vertex already exist?
                 tailVertex = graphNodes[i];                             // If so, work with that vertex
@@ -32,7 +32,7 @@ public class Graph
 
 
         edges.add(new Edge(tailVertex, headVertex, weight));            // Add edge to graph
-        edges.add(new Edge(headVertex, tailVertex, weight));
+        //edges.add(new Edge(headVertex, tailVertex, weight));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////

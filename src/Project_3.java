@@ -83,6 +83,7 @@ public class Project_3
 
             graphBuilder.addVertex(new1); graphBuilder.addVertex(new2);         // adds nodes to the graph
             graphBuilder.addEdge(new2, new1, Float.valueOf(splitString[2]));          // adds edges to the graph
+            graphBuilder.addEdge(new1, new2, Float.valueOf(splitString[2]));
         }
 
         fr.close(); br.close();         // closes file readers
