@@ -1,6 +1,4 @@
-import java.util.HashSet;
-import java.util.PriorityQueue;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Nicholas Dinio on 4/20/2015.
@@ -34,7 +32,7 @@ public class Graph
 
 
         edges.add(new Edge(tailVertex, headVertex, weight));            // Add edge to graph
-        edges.add(new Edge(headVertex, tailVertex, weight));            // Add the edges other reverse direction
+        edges.add(new Edge(headVertex, tailVertex, weight));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,6 +87,7 @@ public class Graph
                 System.out.println("    " + (adjArray[j]).name + " " + edgeWeight); // Prints adjacency list with weight
             }
         }
+        System.out.println("");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,7 +146,7 @@ public class Graph
             tempVert = tempVert.predecessor;
         }
 
-        System.out.println(builderString + endPoint.distance);
+        System.out.println(builderString + endPoint.distance + "\n");
 
         for (int i = 0; i < vertexArray.length; i++)
         {
@@ -162,16 +161,39 @@ public class Graph
     void reachable()
     {
         Vertex [] nodeArray = alphabeticalSort(nodes.toArray());            // Gets nodes as an Array
+        Edge [] edgesArray = buildEdgeArray(edges.toArray());
+        Stack<Vertex> dfs = new Stack<Vertex>();
+
+        HashSet<Vertex> inStack = new HashSet<Vertex>();
+        LinkedList<Vertex> printList = new LinkedList<Vertex>();
 
         for(int i = 0; i < nodeArray.length; i++)
         {
-            System.out.println((nodeArray[i]).name);                        // Prints Nodes
-            Vertex [] adjArray = alphabeticalSort(nodeArray[i].adj.toArray());  // Gets adjacency list as array
+            dfs.add(nodeArray[i]);
+            inStack.add(nodeArray[i]);
 
-            for (int j = 0; j < adjArray.length; j++) {
-                System.out.println("    " + (adjArray[j]).name);            // Prints adjacency list
+            Vertex startNode = dfs.peek();
+            while(!dfs.empty())
+            {
+                for(int j = 0; j < edgesArray.length; j++)
+                    if(edgesArray[j].tailVertex.equals(startNode))
+                    {
+                        if(!inStack.contains(edgesArray[j].headVertex)) {
+                            dfs.add(edgesArray[j].headVertex);
+                            inStack.add(edgesArray[j].headVertex);
+                        }
+                    }
+                startNode = dfs.peek();
+                printList.add(dfs.pop());
             }
+            System.out.println(nodeArray[i].name);
+            for(int j = 0; j < printList.size(); j++)
+                System.out.println("   " + printList.get(j).name);
+            printList = new LinkedList<Vertex>();
+            inStack = new HashSet<Vertex>();
         }
+
+        System.out.println("");
     }
 
 
