@@ -150,7 +150,11 @@ public class Graph
 
         System.out.println(builderString + endPoint.distance);
 
-
+        for (int i = 0; i < vertexArray.length; i++)
+        {
+            vertexArray[i].predecessor = null;
+            vertexArray[i].distance = Float.POSITIVE_INFINITY;
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
