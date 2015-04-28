@@ -133,7 +133,24 @@ public class Graph
             minHeap.remove(minHeap.peek());
         }
 
-        
+        vertexArray = buildVertexArray(nodes.toArray());
+
+        for(int i = 0; i < vertexArray.length; i++)
+            if(vertexArray[i].equals(endPoint))
+                endPoint = vertexArray[i];
+
+        Vertex tempVert = endPoint;
+        String builderString = "";
+
+        while(tempVert != null)
+        {
+            builderString = tempVert.name + " " + builderString ;
+            tempVert = tempVert.predecessor;
+        }
+
+        System.out.println(builderString + endPoint.distance);
+
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
