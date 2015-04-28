@@ -22,7 +22,6 @@ public class Graph
         {
             if (graphNodes[i].equals(headVertex)) {                     // Does the head vertex already exist?
                 headVertex = graphNodes[i];                             // If so, work with that vertex
-                //graphNodes[i].adj.add(tailVertex);                      // Also, update its adjacency list.
             }
             if (graphNodes[i].equals(tailVertex)) {                     // Does the tail vertex already exist?
                 tailVertex = graphNodes[i];                             // If so, work with that vertex
@@ -32,7 +31,7 @@ public class Graph
 
 
         edges.add(new Edge(tailVertex, headVertex, weight));            // Add edge to graph
-        //edges.add(new Edge(headVertex, tailVertex, weight));
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -169,11 +168,10 @@ public class Graph
 
         for(int i = 0; i < nodeArray.length; i++)
         {
-            dfs.add(nodeArray[i]);
             inStack.add(nodeArray[i]);
 
-            Vertex startNode = dfs.peek();
-            while(!dfs.empty())
+            Vertex startNode = nodeArray[i];
+            do
             {
                 for(int j = 0; j < edgesArray.length; j++)
                     if(edgesArray[j].tailVertex.equals(startNode))
@@ -183,12 +181,18 @@ public class Graph
                             inStack.add(edgesArray[j].headVertex);
                         }
                     }
-                startNode = dfs.peek();
-                printList.add(dfs.pop());
-            }
+                if(!dfs.empty()) {
+                    startNode = dfs.peek();
+                    printList.add(dfs.pop());
+                }
+            }while(!dfs.empty());
+
             System.out.println(nodeArray[i].name);
+
+            Vertex[] toPrint = alphabeticalSort(printList.toArray());
             for(int j = 0; j < printList.size(); j++)
-                System.out.println("   " + printList.get(j).name);
+                System.out.println("   " + toPrint[j].name);
+
             printList = new LinkedList<Vertex>();
             inStack = new HashSet<Vertex>();
         }
