@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 /**
@@ -96,7 +97,43 @@ public class Graph
     ////////////////////////////////////////////////////////////////////////////////////////////
     void shortestPath(Vertex startPoint, Vertex endPoint)
     {
+        Edge [] edgeArray = buildEdgeArray(edges.toArray());
 
+        startPoint.distance = 0;
+
+        for(int i = 0; i < edgeArray.length; i++)
+            if(edgeArray[i].tailVertex.equals(startPoint))
+            {
+                edgeArray[i].headVertex.distance = edgeArray[i].weight;
+                edgeArray[i].headVertex.predecessor = startPoint;
+                nodes.add(edgeArray[i].headVertex);
+            }
+
+        // Build a min heap based off of distance
+        PriorityQueue<Vertex> minHeap = new PriorityQueue<Vertex>();
+
+        Vertex [] vertexArray = buildVertexArray(nodes.toArray());
+
+        for(int i = 0; i < vertexArray.length; i++)
+            minHeap.add(vertexArray[i]);
+
+
+        // Do previous loop with smallest distance
+
+        while(minHeap.size() != 0) {
+            for (int i = 0; i < edgeArray.length; i++)
+                if (edgeArray[i].tailVertex.equals(minHeap.peek())) {
+                    if(edgeArray[i].weight + edgeArray[i].tailVertex.distance < edgeArray[i].headVertex.distance)
+                    {
+                        edgeArray[i].headVertex.distance = edgeArray[i].weight + edgeArray[i].tailVertex.distance;
+                        edgeArray[i].headVertex.predecessor = minHeap.peek();
+                        nodes.add(edgeArray[i].headVertex);
+                    }
+                }
+            minHeap.remove(minHeap.peek());
+        }
+
+        
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
